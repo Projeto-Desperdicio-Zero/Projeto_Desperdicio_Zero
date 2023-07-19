@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Desperdício Zero - Alunos</title>
+  <style>
+    body {
+      background-color: #d4f4dc;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 48px;
+      color: #22a353;
+    }
+
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #22a353;
+    }
+
+    th {
+      background-color: #22a353;
+      color: #fff;
+    }
+
+    td {
+      background-color: #e6f7ed;
+    }
+    
+    .form-container {
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .form-input {
+      margin-bottom: 10px;
+    }
+    
+    .form-button {
+      background-color: #22a353;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cardápio Semanal</h1>
+  <table>
+    <tr>
+      <th>Dia</th>
+      <th>Lanche da Manhã</th>
+      <th>Almoço</th>
+      <th>Lanche da Tarde</th>
+    </tr>
+    <tr>
+      <td>Segunda-feira</td>
+      <td id="segunda-manha"></td>
+      <td id="segunda-almoco"></td>
+      <td id="segunda-tarde"></td>
+    </tr>
+    <tr>
+      <td>Terça-feira</td>
+      <td id="terca-manha"></td>
+      <td id="terca-almoco"></td>
+      <td id="terca-tarde"></td>
+    </tr>
+    <tr>
+      <td>Quarta-feira</td>
+      <td id="quarta-manha"></td>
+      <td id="quarta-almoco"></td>
+      <td id="quarta-tarde"></td>
+    </tr>
+    <tr>
+      <td>Quinta-feira</td>
+      <td id="quinta-manha"></td>
+      <td id="quinta-almoco"></td>
+      <td id="quinta-tarde"></td>
+    </tr>
+    <tr>
+      <td>Sexta-feira</td>
+      <td id="sexta-manha"></td>
+      <td id="sexta-almoco"></td>
+      <td id="sexta-tarde"></td>
+    </tr>
+  </table>
+
+  <div class="form-container">
+    <h2>Desejo almoçar hoje</h2>
+    <input type="text" class="form-input" id="aluno-nome" placeholder="Nome">
+    <input type="text" class="form-input" id="aluno-turma" placeholder="Turma">
+    <select class="form-input" id="aluno-turno">
+      <option value="manha">Manhã</option>
+      <option value="tarde">Tarde</option>
+    </select>
+    <select class="form-input" id="aluno-horario">
+      <option value="11:55">11:55</option>
+      <option value="12:45">12:45</option>
+    </select>
+    <button class="form-button" onclick="saveAluno()">Enviar</button>
+  </div>
+
+  <div class="form-container">
+    <h2>Alunos Cadastrados</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Turma</th>
+          <th>Turno</th>
+          <th>Horário de Saída</th>
+        </tr>
+      </thead>
+      <tbody id="alunos-cadastrados"></tbody>
+    </table>
+  </div>
+
+  <script>
+    // Função para carregar o cardápio da localStorage
+    function loadMenu() {
+      var data = JSON.parse(localStorage.getItem('menuData'));
+
+      document.getElementById('segunda-manha').innerHTML = data.segunda.manha;
+      document.getElementById('segunda-almoco').innerHTML = data.segunda.almoco;
+      document.getElementById('segunda-tarde').innerHTML = data.segunda.tarde;
+      document.getElementById('terca-manha').innerHTML = data.terca.manha;
+      document.getElementById('terca-almoco').innerHTML = data.terca.almoco;
+      document.getElementById('terca-tarde').innerHTML = data.terca.tarde;
+      document.getElementById('quarta-manha').innerHTML = data.quarta.manha;
+      document.getElementById('quarta-almoco').innerHTML = data.quarta.almoco;
+      document.getElementById('quarta-tarde').innerHTML = data.quarta.tarde;
+      document.getElementById('quinta-manha').innerHTML = data.quinta.manha;
+      document.getElementById('quinta-almoco').innerHTML = data.quinta.almoco;
+      document.getElementById('quinta-tarde').innerHTML = data.quinta.tarde;
+      document.getElementById('sexta-manha').innerHTML = data.sexta.manha;
+      document.getElementById('sexta-almoco').innerHTML = data.sexta.almoco;
+      document.getElementById('sexta-tarde').innerHTML = data.sexta.tarde;
+    }
+
+    function saveAluno() {
+      var nome = document.getElementById('aluno-nome').value;
+      var turma = document.getElementById('aluno-turma').value;
+      var turno = document.getElementById('aluno-turno').value;
+      var horario = document.getElementById('aluno-horario').value;
+
+      var alunoData = JSON.parse(localStorage.getItem('alunoData')) || [];
+      alunoData.push({ nome: nome, turma: turma, turno: turno, horario: horario });
+      localStorage.setItem('alunoData', JSON.stringify(alunoData));
+
+      alert('Dados do aluno salvos com sucesso!');
+      document.getElementById('aluno-nome').value = '';
+      document.getElementById('aluno-turma').value = '';
+      document.getElementById('aluno-turno').value = 'manha';
+      document.getElementById('aluno-horario').value = '';
+
+      // Recarrega a tabela de alunos cadastrados
+      loadAlunos();
+    }
+
+    function loadAlunos() {
+      var alunosData = JSON.parse(localStorage.getItem('alunoData'));
+      var tableBody = document.getElementById('alunos-cadastrados');
+
+      if (alunosData) {
+        tableBody.innerHTML = '';
+
+        alunosData.forEach(function(aluno) {
+          var row = document.createElement('tr');
+          var nomeCell = document.createElement('td');
+          var turmaCell = document.createElement('td');
+          var turnoCell = document.createElement('td');
+          var horarioCell = document.createElement('td');
+
+          nomeCell.textContent = aluno.nome;
+          turmaCell.textContent = aluno.turma;
+          turnoCell.textContent = aluno.turno;
+          horarioCell.textContent = aluno.horario;
+
+          row.appendChild(nomeCell);
+          row.appendChild(turmaCell);
+          row.appendChild(turnoCell);
+          row.appendChild(horarioCell);
+
+          tableBody.appendChild(row);
+        });
+      }
+    }
+
+    loadMenu(); // Carrega o cardápio ao carregar a página
+    loadAlunos(); // Carrega os alunos cadastrados ao carregar a página
+  </script>
+</body>
+</html>

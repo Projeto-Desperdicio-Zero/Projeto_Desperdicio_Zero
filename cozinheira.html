@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Projeto Desperdício 0 - Cozinheira</title>
+  <style>
+    body {
+      background-color: #d4f4dc;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 48px;
+      color: #22a353;
+    }
+
+    .table-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .table {
+      border-collapse: collapse;
+      width: 400px;
+      margin-right: 20px;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #22a353;
+    }
+
+    th {
+      background-color: #22a353;
+      color: #fff;
+    }
+
+    td {
+      background-color: #e6f7ed;
+    }
+  </style>
+</head>
+<body>
+  <h1>Almoços de Hoje</h1>
+  <div class="table-container">
+    <table class="table">
+      <caption>11:55</caption>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Turma</th>
+          <th>Turno</th>
+          <th>Horário de Saída</th>
+        </tr>
+      </thead>
+      <tbody id="table-1155"></tbody>
+    </table>
+
+    <table class="table">
+      <caption>12:45</caption>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Turma</th>
+          <th>Turno</th>
+          <th>Horário de Saída</th>
+        </tr>
+      </thead>
+      <tbody id="table-1245"></tbody>
+    </table>
+  </div>
+
+  <script>
+    function loadAlunos() {
+      var alunosData = JSON.parse(localStorage.getItem('alunoData'));
+      var table1155 = document.getElementById('table-1155');
+      var table1245 = document.getElementById('table-1245');
+
+      if (alunosData) {
+        table1155.innerHTML = '';
+        table1245.innerHTML = '';
+
+        alunosData.forEach(function(aluno) {
+          var row = document.createElement('tr');
+          var nomeCell = document.createElement('td');
+          var turmaCell = document.createElement('td');
+          var turnoCell = document.createElement('td');
+          var horarioCell = document.createElement('td');
+
+          nomeCell.textContent = aluno.nome;
+          turmaCell.textContent = aluno.turma;
+          turnoCell.textContent = aluno.turno;
+          horarioCell.textContent = aluno.horario;
+
+          row.appendChild(nomeCell);
+          row.appendChild(turmaCell);
+          row.appendChild(turnoCell);
+          row.appendChild(horarioCell);
+
+          if (aluno.horario === '11:55') {
+            table1155.appendChild(row);
+          } else if (aluno.horario === '12:45') {
+            table1245.appendChild(row);
+          }
+        });
+      }
+    }
+
+    loadAlunos(); // Carrega os alunos autorizados ao carregar a página
+  </script>
+</body>
+</html>
