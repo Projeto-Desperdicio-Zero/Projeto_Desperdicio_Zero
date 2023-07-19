@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Desperdício Zero - Menu</title>
+    <style>
+        body {
+            background-color: #d4f4dc;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 48px;
+            color: #22a353;
+        }
+        
+        
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f0932b;
+            color: #fff;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        #contact {
+            font-size: 18px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Desperdício Zero</h1>
+    <p>Como deseja realizar seu login?</p>
+    <div>
+        <button class="button" onclick="realizarLogin('secretaria')">Secretaria</button>
+        <button class="button" onclick="realizarLogin('alunos')">Aluno(a)</button>
+        <button class="button" onclick="realizarLogin('cozinheira')">Cozinheira</button>
+    </div>
+    <div id="contact">
+        Colégio Estadual Professor Mário Evaldo Morski<br>
+        Telefone: 3677-1151
+    </div>
+
+    <script>
+        function realizarLogin(tipoUsuario) {
+            var senha = prompt("Digite a senha:");
+
+            // Verificar a senha para redirecionar para a página correta
+            if (tipoUsuario === 'secretaria' && senha === 'sec2023') {
+                window.location.href = 'secretaria.html';
+            } else if (tipoUsuario === 'alunos' && senha === 'alu2023') {
+                window.location.href = 'alunos.html';
+            } else if (tipoUsuario === 'cozinheira' && senha === 'coz2023') {
+                window.location.href = 'cozinheira.html';
+            } else {
+                alert('Senha incorreta! Por favor, tente novamente.');
+            }
+        }
+    </script>
+</body>
+</html>
